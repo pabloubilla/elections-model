@@ -5,6 +5,8 @@ import json
 import ast
 import os
 
+'''Code for generating election instances'''
+
 def gen_instance(M, J, p_gi, lambda_, name = None, terminar = False, seed = None):
     #screen_print = input("Deseas imprimir el resultado en pantalla? (y/n)\n")
     #while screen_print not in ("y", "n"):

@@ -9,6 +9,8 @@ import time
 from itertools import combinations_with_replacement
 import instance_maker
 
+'''Original code from Charles Thraves'''
+
 # funcion principal
 def main():
 	# datos de la instancia a generar

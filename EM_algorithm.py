@@ -3,6 +3,8 @@ import time
 from tqdm import tqdm
 import pickle
 
+'''Main EM algorithm functions to estimate probability'''
+
 def compute_p(q, b):
     num = np.sum(np.multiply(q,b[...,None]),axis=0)
     dem = np.sum(b,axis=0)[...,None]

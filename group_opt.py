@@ -3,6 +3,8 @@ import numpy as np
 from pulp import LpMinimize, LpProblem, LpVariable, lpSum
 from EM_mult import EM_mult
 
+'''Code for chosing optimal group aggregations'''
+
 SOLVER_GUROBI = False
 
 def std_group_combination(group_proportions, group_combination):

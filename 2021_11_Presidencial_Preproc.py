@@ -10,7 +10,7 @@ import re
 
 import sys
 from p_val_mult import compute_pvalue_pickle
-from pvalues_voting_main.p_val_mult_C import compute_pvalue_pickle_C
+# from pvalues_voting_main.p_val_mult_C import compute_pvalue_pickle_C # C function not implemented yet
 
 from EM_mult import EM_mult
 from group_opt import new_group_matrix, optimze_age_groups_v2, group_election_routine
@@ -359,7 +359,8 @@ def run_pvalue(election_name, pval_parallel, use_C):
     file_dict_output_pvalues = f'{election_name}/output/{election_name}_output_pvalues{c_string*use_C}.pickle'
     if use_C:
         # compute_pvalue_pickle_C(file_in = file_dict_input_pvalues, file_out = file_dict_output_pvalues)
-        compute_pvalue_pickle_C()
+        # compute_pvalue_pickle_C() # gotta add the C function
+        pass
     else:
         compute_pvalue_pickle(file_in = file_dict_input_pvalues, file_out = file_dict_output_pvalues, load_bar=True , S_min = 2, S_max = 8, parallel=pval_parallel)
 
