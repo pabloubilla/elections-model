@@ -456,17 +456,17 @@ if __name__ == '__main__':
     pval_parallel = True
     # dict_election = election_parameters(election_name)
     
-    # if verbose: print('PROCESS EM')
-    # pre_process_EM(election_name)
+    if verbose: print('PROCESS EM')
+    pre_process_EM(election_name)
 
-    # if verbose: print('RUN EM')
-    # run_EM(election_name)
+    if verbose: print('RUN EM')
+    run_EM(election_name)
 
     # if verbose: print('RUN P-VAL')
     # run_pvalue(election_name, pval_parallel, use_C)
 
-    if verbose: print('ADD P-VAL')
-    add_pvalues(election_name)
+    # if verbose: print('ADD P-VAL')
+    # add_pvalues(election_name)
 
 
     if verbose: print('TOTAL TIME: ', time.time() - start_total, ' seconds')
