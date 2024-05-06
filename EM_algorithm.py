@@ -1,5 +1,6 @@
 import numpy as np
 import time
+from time import perf_counter
 from tqdm import tqdm
 import pickle
 
@@ -134,7 +135,7 @@ def EM_algorithm_old(X, b, p_est, q_method, convergence_value = 0.0001, max_iter
 
 
 ## VERSION NUEVA
-def EM_algorithm(X, b, p_est, q_method, convergence_value = 0.0001, max_iterations = 100, load_bar = True, verbose = True,
+def EM_algorithm(X, b, p_est, q_method, convergence_value = 0.001, max_iterations = 100, load_bar = True, verbose = True,
                  dict_results = {}, save_dict = False, dict_file = None):
     M_size, I_size = X.shape
     G_size = b.shape[1] 
@@ -159,14 +160,23 @@ def EM_algorithm(X, b, p_est, q_method, convergence_value = 0.0001, max_iteratio
 
     previous_Q = -np.inf
     previous_ll = -np.inf
+    dict_results['end'] = 0 # not converged yet until the time/iteration limit
     for i in tqdm(range(1,max_iterations+1), disable = not load_bar):
-        start_iteration = time.time()
+        # start_iteration = time.time()
+        start_iteration = perf_counter()
         q = q_method(X, p_est, b)
         p_new = compute_p(q,b)
         p_new[np.isnan(p_new)] = 0
-        end_iterartion = time.time()
+    
+        # check convergence of p    
+        
+        if (np.abs(p_new-p_est) < convergence_value).all():
+            dict_results['end'] = 1
+            if verbose: print(f'Convergence took {i} iterations and {run_time} seconds.')
+
         # update time
-        run_time += end_iterartion - start_iteration
+        run_time += perf_counter() - start_iteration
+
         # update Q
         log_p_new = np.where(p_new > 0, np.log(p_new), 0)
         Q = np.sum(b * np.sum(q * log_p_new, axis = 2))
@@ -194,14 +204,6 @@ def EM_algorithm(X, b, p_est, q_method, convergence_value = 0.0001, max_iteratio
             # print('a: ',np.sum(q * log_p_est, axis = 2))
             print('-'*50)
         # print(np.round(p_est[1,6],5))
-
-        dict_results['end'] = 0 # not converged yet until the time/iteration limit
-
-        # check convergence of p
-        if (np.abs(p_new-p_est) < convergence_value).all():
-            dict_results['end'] = 1
-            if verbose: print(f'Convergence took {i} iterations and {run_time} seconds.')
-
         
         # check if the expected Likelihood is not increasing
         if previous_ll - dict_results['ll'] > 0 :
